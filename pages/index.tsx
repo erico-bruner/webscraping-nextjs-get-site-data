@@ -53,6 +53,7 @@ const Home: NextPage = () => {
       }).then((response) => {
       setDATA(response.data)
       setURL('') 
+      console.log(response.data)
     }); 
   }
 
