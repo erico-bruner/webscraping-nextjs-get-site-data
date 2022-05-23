@@ -71,6 +71,7 @@ const Home: NextPage = () => {
             height="100" 
             width="100" 
             alt="logo" 
+            priority={true}
             className={styles.Applogo}
           />
           <input 
