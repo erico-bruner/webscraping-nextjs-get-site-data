@@ -52,8 +52,12 @@ const Home: NextPage = () => {
   }
 
   function dataIsNull(data: string | [string] | null | undefined) {
+    if(returnError) {
+      return data;
+    }
+    
     if(data == null || data === undefined) return "Este dado não retornou da API"
-    return data
+    return data;
   }
 
   async function handleGetData() {
