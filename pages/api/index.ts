@@ -143,7 +143,7 @@ export default async function handler(
     console.log(error)
     res.json({
       status: 'error',
-      error: 'Something went wrong',
+      error: 'Ops! Algo de errado aconteceu!',
     })
     // return callback(error);
   } finally {
