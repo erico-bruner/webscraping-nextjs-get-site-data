@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.27.2",
+    "chrome-aws-lambda": "^10.1.0",
     "next": "12.1.6",
+    "puppeteer": "^10.1.0",
     "react": "18.1.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.1.0"
   },
   "devDependencies": {
     "@types/node": "17.0.35",
     "@types/react": "18.0.9",
+    "@types/react-copy-to-clipboard": "^5.0.2",
     "@types/react-dom": "18.0.4",
     "eslint": "8.16.0",
     "eslint-config-next": "12.1.6",
