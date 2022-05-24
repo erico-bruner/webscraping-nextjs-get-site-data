@@ -29,7 +29,7 @@ export default async function handler(
   if (!URL) {
 		res.json({
 			status: 'error',
-			error: 'Entre com uma URL valida',
+			error: 'Entre com uma url valida!',
 		});
 		return;    
 	}

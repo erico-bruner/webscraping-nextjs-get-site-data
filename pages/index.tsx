@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import type { NextPage } from 'next';
+import { toast } from 'react-toastify';
 import Head from 'next/head';
 import Image from 'next/image';
 
@@ -25,8 +26,6 @@ interface DATA {
 }
 
 const Home: NextPage = () => {
-  const [returnError, setReturnError] = useState<boolean>()
-
   const [URL, setURL] = useState('');
   const [DATA, setDATA] = useState<DATA>({
     rideCity: 'Aguardando chamada!',
@@ -44,20 +43,8 @@ const Home: NextPage = () => {
     error: '',
   })
 
-  function verifyError() {
-    if(DATA.error) {
-      setReturnError(true)
-    }
-    setReturnError(false)
-  }
-
-  function dataIsNull(data: string | [string] | null | undefined) {
-    if(returnError) {
-      return data;
-    }
-    
-    if(data == null || data === undefined) return "Este dado não retornou da API"
-    return data;
+  function notify() {
+    toast.error(DATA.error, {toastId: DATA.error});
   }
 
   async function handleGetData() {
@@ -66,11 +53,11 @@ const Home: NextPage = () => {
         data: { URL: URL },
         url: '/api',
       }).then((response) => {
-      setDATA(response.data)
-      verifyError()
-      setURL('')
+      setDATA(response.data);
+      
       console.log(response.data)
-    }); 
+      setURL('');
+    })
   }
 
   return (
@@ -110,39 +97,41 @@ const Home: NextPage = () => {
       <main className={styles.Dashboard}>
         <div className={styles.DashboardItem}>
           <CopyToClipboard text={DATA.rideCity}><button>COPY</button></CopyToClipboard>
-          {returnError ? (
-            <span>{DATA.error}</span>
+          {(DATA.error) ? (
+            <>
+              {notify()}
+            </>
           ) : (
-            <span>{dataIsNull(DATA.rideCity)}</span>
+            <span>{DATA.rideCity}</span>
           )} 
         </div>
         <div className={styles.DashboardItem}>
           <CopyToClipboard text={DATA.city}><button>COPY</button></CopyToClipboard>
-          <span>{dataIsNull(DATA.city)}</span> 
+          <span>{DATA.city}</span> 
         </div>
         <div className={styles.DashboardItem}>
           <CopyToClipboard text={DATA.titleOne}><button>COPY</button></CopyToClipboard>
-          <span>{dataIsNull(DATA.titleOne)}</span> 
+          <span>{DATA.titleOne}</span> 
         </div>
         <div className={styles.DashboardItem}>
           <CopyToClipboard text={DATA.textPageOne}><button>COPY</button></CopyToClipboard>
-          <span>{dataIsNull(DATA.textPageOne)}</span> 
+          <span>{DATA.textPageOne}</span> 
         </div>
         <div className={styles.DashboardItem}>
           <CopyToClipboard text={DATA.textPageTwo}><button>COPY</button></CopyToClipboard>
-          <span>{dataIsNull(DATA.textPageTwo)}</span> 
+          <span>{DATA.textPageTwo}</span> 
         </div>
         <div className={styles.DashboardItem}>
           <CopyToClipboard text={DATA.textPageThree}><button>COPY</button></CopyToClipboard>
-          <span>{dataIsNull(DATA.textPageThree)}</span> 
+          <span>{DATA.textPageThree}</span> 
         </div>
         <div className={styles.DashboardItem}>
           <CopyToClipboard text={DATA.textPageFour}><button>COPY</button></CopyToClipboard>
-          <span>{dataIsNull(DATA.textPageFour)}</span> 
+          <span>{DATA.textPageFour}</span> 
         </div>
         <div className={styles.DashboardItem}>
           <CopyToClipboard text={DATA.titleTwo}><button>COPY</button></CopyToClipboard>
-          <span>{dataIsNull(DATA.titleTwo)}</span> 
+          <span>{DATA.titleTwo}</span> 
         </div>
           <div className={styles.DashboardItemList}>
           <div>
@@ -153,11 +142,13 @@ const Home: NextPage = () => {
               <button>COPY</button>
             </CopyToClipboard>
             <ul>
-              {!returnError ?? (
+              {DATA.error ? (
+                <li></li>
+              ) : (
                 DATA.listPageOne.map((item) => {
-                  return <li key={item}>{item}</li>
+                return <li key={item}>{item}</li>
                 })
-              )}  
+              )} 
             </ul>    
           </div>
           <div>
@@ -168,10 +159,12 @@ const Home: NextPage = () => {
               <button>COPY</button>
             </CopyToClipboard>
             <ul>
-              {!returnError ?? (
+              {DATA.error ? (
+                <li></li>
+              ) : (
                 DATA.listPageTwo.map((item) => {
                 return <li key={item}>{item}</li>
-              })
+                })
               )}  
             </ul>
           </div>
