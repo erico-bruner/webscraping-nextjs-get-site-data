@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-
-import { getBrowserInstance } from './utils/getBrowserInstance'
-import { formattedText } from './utils/formattedText';
+import chromium from 'chrome-aws-lambda'
 
 type Data = {
   status: string;
@@ -18,6 +16,43 @@ type Data = {
   listPageTwo?: string;
   listPageOneFormatted?: [string];
   listPageTwoFormatted?: [string];
+}
+
+async function getBrowserInstance() {
+	const executablePath = await chromium.executablePath
+
+	if (!executablePath) {
+		// running locally
+		const puppeteer = require('puppeteer')
+		return puppeteer.launch({
+			args: chromium.args,
+			headless: true,
+			defaultViewport: {
+				width: 1280,
+				height: 720
+			},
+			ignoreHTTPSErrors: true
+		})
+	}
+
+	return chromium.puppeteer.launch({
+		args: chromium.args,
+		defaultViewport: {
+			width: 1280,
+			height: 720
+		},
+		executablePath,
+		headless: chromium.headless,
+		ignoreHTTPSErrors: true
+	})
+}
+
+function formattedText(text: string) {
+  if(!text) {
+    return "Falhou!"
+  }
+  const formattedText = text.replace(/\n/g, "").replace(/\t/g, "")
+  return formattedText;
 }
 
 export default async function handler(
