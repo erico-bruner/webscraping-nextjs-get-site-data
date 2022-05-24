@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { NextPage } from 'next';
 import { toast } from 'react-toastify';
+import path from 'path';
 import Head from 'next/head';
 import Image from 'next/image';
 
@@ -51,7 +52,7 @@ const Home: NextPage = () => {
       await axios({
         method: 'post',
         data: { URL: URL },
-        url: '/api',
+        url: path.join(__dirname, '/api'),
       }).then((response) => {
       setDATA(response.data);
       
