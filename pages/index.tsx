@@ -176,7 +176,7 @@ const Home: NextPage = () => {
 
       <footer className={styles.Footer}>
         <a
-          href="https://github.com/EricoBruner"
+          href="https://github.com/erico-bruner"
           target="_blank"
           rel="noopener noreferrer"
         >
